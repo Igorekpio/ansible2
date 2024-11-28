@@ -1,0 +1,27 @@
+---
+- name: motd-playbook
+  hosts: my
+  become: yes
+  tasks:
+    - name: Create 99-hello for adding "Hello Netology 2024!" to motd
+      ansible.builtin.lineinfile:
+        dest: /etc/update-motd.d/00-header
+        create: yes
+        path: /etc/update-motd.d/00-header
+        regexp: '^printf'
+        line: '{{ item }}'
+      with_items:
+        - 'printf "Welcome to $( hostname ) {{ ansible_default_ipv4.address }}. Have a great day dear administrator 2024!"'
+      tags:
+        - motd-change
+    - name: Checknig motd changes
+      ansible.builtin.command: 
+        cmd: run-parts /etc/update-motd.d
+      register: output
+      tags:
+        - check-1
+    - name: Debugging motd changes
+      ansible.builtin.debug:
+        var: output.stdout_lines
+      tags:
+        - check-2

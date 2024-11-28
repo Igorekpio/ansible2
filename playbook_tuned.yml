@@ -1,0 +1,14 @@
+- name: Install and enable tuned
+  hosts: my
+  become: yes
+  tasks:
+    - name: Install tuned package
+      package:
+        name: tuned
+        state: present
+
+    - name: Start tuned service
+      service:
+        name: tuned
+        state: started
+        enabled: yes

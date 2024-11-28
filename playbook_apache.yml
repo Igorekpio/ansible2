@@ -1,0 +1,7 @@
+---
+- name: playbook_apache.yml
+  hosts: my
+  become: yes
+  roles:
+  - include_roles:
+    name: apache_server
